@@ -1,13 +1,3 @@
-'''
-Kniting Pattern Visualiser V1.0
-By Sam Whelan
-
-
-Currently handles knit and purl stitches in a 'K2 P2' format' from 'pattern.txt'
-Creates a window to fit the size of the pattern
-
-'''
-
 from __future__ import print_function
 import re, pygame, sys
 from pygame.locals import *
@@ -33,36 +23,56 @@ with open('pattern.txt') as pattern_file:
     expression = [line.rstrip('\n').split(" ") for line in pattern_file]
 
 #print given pattern
-print("PATTERN GIVEN")
+print("INPUT GIVEN")
 for i in expression:
     print(i)
 print()
 
-number_of_rows = len(expression)
+number_of_rows = int(expression[0][0])
+length_of_row = int(expression[1][0])
+
+expression = expression[2:]
+print("PATTERN GIVEN")
+print(number_of_rows, 'rows of', length_of_row, 'stitches')
+for i in expression:
+    print(i)
+print()
 
 #convert the pattern to an expression
 for r in range(0, number_of_rows):
     temp = []
+    repeats = []
+    in_brackets = False
     for s in range(0, len(expression[r])):
         this_string = expression[r][s]
+        if this_string[0] == '(':
+            in_brackets = True
+            this_string = this_string[1:]
+
         #check for numbers eg K2
         if len(this_string) > 1:
             foo = int(re.findall(r'\d+', this_string)[0])
             for i in range(foo):
                 temp.append(this_string[0])
+                if in_brackets:
+                    repeats.append(this_string[0])
         else:
             temp.append(this_string)
+            if in_brackets:
+                repeats.append(this_string[0])
+        if this_string[-1] == '*':
+            in_brackets = False
     pattern.append(temp)
+    print(repeats)
+    while len(pattern[r]) < length_of_row:
+        for i in repeats:
+            pattern[r].append(i)
 
 #print interpreted pattern
 print("INTERPRETED PATTERN")
 for i in pattern:
     print(i)
 print()
-
-number_of_rows = len(pattern)
-length_of_row = len(pattern[0])
-print(number_of_rows, 'rows of', length_of_row, 'stitches\n')
 
 stitch_height = 26
 stitch_width = 32
