@@ -164,6 +164,8 @@ while True:
                 else:
                     show_wrong_side = True
                     pygame.display.set_caption('Knitting Pattern Visualiser - WRONG SIDE')
+            elif event.key == K_RETURN:
+                pygame.image.save(window, "pattern.jpg")
 
     pygame.display.update()
     fps_clock.tick(30)

@@ -12,6 +12,4 @@ Creates a window to fit the size of the pattern
 
 Press Space to flip the work and see the other side
 
-
-Additional functionality to come:
-Coloured 'yarn'
+Press Enter to save the pattern as an image
